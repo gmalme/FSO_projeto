@@ -1,5 +1,23 @@
-from utils.ascii_table import create_table
 from app.recursos_sistema.disco.bit_enum import Bit
+
+
+def create_table(row_data):
+    header = [str(x) for x in range(len(row_data))]
+    cols = len(row_data)
+    divider = '+'
+    lines = ['|', '|']
+    for i in range(cols):
+        pivot = len(header[i]) if len(header[i]) > len(row_data[i]) else len(row_data[i])
+        pivot += 2
+        divider += '-'*pivot + '+'
+        if(len(header[i]) > len(row_data[i])):
+            lines[0] += ' '+ header[i] + ' |'
+            lines[1] += ' '*(pivot-len(row_data[i])-1)  + row_data[i] + ' ' + '|'
+        else:
+            lines[0] += ' '*(pivot-len(header[i])-1) + header[i] + ' ' + '|'
+            lines[1] += ' ' + row_data[i] + ' |'
+
+    return '''{0}\n{1}\n{0}\n{2}\n{0}'''.format(divider, lines[0], lines[1])
 
 
 class Disco:
@@ -44,3 +62,4 @@ class Disco:
         """Libera o bloco especificado."""
         for i in range(start_addr, start_addr + tamanho_bloco):
             self.mapa_bits[i] = Bit.LIVRE.value
+

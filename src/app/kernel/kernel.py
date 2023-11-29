@@ -10,10 +10,7 @@ from app.recursos_sistema.memoria.gerenciador_memoria import GerenciadorMemoria
 from app.gerenciador_recursos.gerenciador_recurso import GerenciadorRecurso
 from utils.messages import *
 
-'''
-Abstração responsavel por simular o Kernel do nosso SO
-Orquesta todos os modulos
-'''
+
 class Kernel:
     CAMINHO_SAIDA_MEMORIA = os.path.join(ROOT_DIR, 'output', 'memoria.out')
     CAMINHO_SAIDA_DISCO = os.path.join(ROOT_DIR, 'output', 'disco.out')

@@ -1,11 +1,14 @@
 from app.recursos_sistema.memoria.memoria import Memory
 from app.processo.processo import Processo
 from utils.singleton import Singleton
+from utils.system_constants import *
 
 class GerenciadorMemoria(metaclass=Singleton):
     def __init__(self) -> None:
         self.MEMORY_REAl_TIME_SIZE = 64
         self.MEMORY_USER_SIZE = 960
+
+
         self.memory = Memory(self.MEMORY_REAl_TIME_SIZE, self.MEMORY_USER_SIZE)
         self.allocated_process = []
 

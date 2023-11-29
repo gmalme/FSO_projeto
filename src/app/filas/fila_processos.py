@@ -1,7 +1,5 @@
 from queue import Queue
 from app.filas.fila_usuarios import FilaUsuarios
-import time
-from threading import Thread
 
 
 class FilaProcessos:

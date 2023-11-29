@@ -42,7 +42,7 @@ ERROR_MESSAGES = {
 
 SUCCESS_MESSAGES = {
     SUCESSO_ARQUIVO_REMOVIDO: SUCESSO_PADRAO + "deletou o arquivo {arquivonome}.",
-    SUCESSO_ARQUIVO_CRIADO: SUCESSO_PADRAO + "criou o arquivo {arquivonome} (blocos {' '.join(block_range)}).",
+    SUCESSO_ARQUIVO_CRIADO: SUCESSO_PADRAO + "criou o arquivo {arquivonome} ).",
 }
 
 LOG_MESSAGES = {

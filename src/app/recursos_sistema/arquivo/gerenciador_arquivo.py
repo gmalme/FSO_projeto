@@ -72,7 +72,7 @@ class GerenciadorArquivos(metaclass=Singleton):
 
             arquivo = arquivo[0]
 
-            if processo.pid != arquivo.criado_por and processo.pid != 0:
+            if processo.pid != arquivo.criador and processo.pid != 0:
                 self.out.error(ERRO_SEM_PERMISSAO, pid=processo.pid, arquivonome=operacao.nome_arquivo)
                 return
 
