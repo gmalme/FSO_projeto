@@ -1,16 +1,17 @@
 def create_table(row_data):
-    if not row_data or not all(isinstance(row, (list, tuple)) for row in row_data):
-        return "Invalid input: row_data should be a non-empty list of lists or tuples."
+    header = [str(x) for x in range(len(row_data))]
+    cols = len(row_data)
+    divider = '+'
+    lines = ['|', '|']
+    for i in range(cols):
+        pivot = len(header[i]) if len(header[i]) > len(row_data[i]) else len(row_data[i])
+        pivot += 2
+        divider += '-'*pivot + '+'
+        if(len(header[i]) > len(row_data[i])):
+            lines[0] += ' '+ header[i] + ' |'
+            lines[1] += ' '*(pivot-len(row_data[i])-1)  + row_data[i] + ' ' + '|'
+        else:
+            lines[0] += ' '*(pivot-len(header[i])-1) + header[i] + ' ' + '|'
+            lines[1] += ' ' + row_data[i] + ' |'
 
-    # Extract column headers
-    header = [str(i) for i in range(len(row_data[0]))]
-
-    # Determine column widths
-    col_widths = [max(len(header[i]), max(len(str(row[i])) for row in row_data)) + 2 for i in range(len(header))]
-
-    # Build the table
-    table = "+{}+".format("+".join("-" * width for width in col_widths))
-    lines = ["| {} |".format(" | ".join(str(row[i]).ljust(col_widths[i] - 1) for i in range(len(header)))) for row in row_data]
-
-    # Combine everything into the final table
-    return "{}\n{}\n{}".format(table, "\n".join([table] + lines + [table]), table)
+    return '''{0}\n{1}\n{0}\n{2}\n{0}'''.format(divider, lines[0], lines[1])
