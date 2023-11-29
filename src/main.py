@@ -1,5 +1,5 @@
 import logging
-from kernel.kernel import Kernel
+from app.kernel.kernel import Kernel
 
 
 def main():
