@@ -88,7 +88,7 @@ class GerenciadorArquivos(metaclass=Singleton):
             self.arquivos.append(novo_arquivo)
             blocos = list(range(start_addr, start_addr + operacao.tamanho_bloco_criado))
             blocos = list(map(lambda x: str(x), blocos))
-            self.out.success(SUCESSO_ARQUIVO_REMOVIDO, pid=processo.pid, arquivonome=operacao.nome_arquivo,
+            self.out.success(SUCESSO_ARQUIVO_CRIADO, pid=processo.pid, arquivonome=operacao.nome_arquivo,
                              block_range=blocos)
 
     def obter_operacoes(self, pid: int):
