@@ -1,7 +1,7 @@
 from app.recursos_sistema.disco.bit_enum import Bit
 
 
-def create_table(row_data):
+def tabela_aux(row_data):
     header = [str(x) for x in range(len(row_data))]
     cols = len(row_data)
     divider = '+'
@@ -27,7 +27,7 @@ class Disco:
         self.mapa_bits = [Bit.LIVRE.value] * self.tamanho
 
     def __repr__(self):
-        return create_table(self.mapa_bits)
+        return tabela_aux(self.mapa_bits)
 
     def __str__(self):
         return self.__repr__()

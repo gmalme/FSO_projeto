@@ -1,11 +1,11 @@
 from utils.singleton import Singleton
 from utils.output import *
 from utils.messages import *
-from src.app.recursos_sistema.memoria.bit_enum import Bit
+from app.recursos_sistema.memoria.bit_enum import Bit
 
 
 
-def create_table(row_data):
+def tabela_aux(row_data):
     header = [str(x) for x in range(len(row_data))]
     cols = len(row_data)
     divider = '+'
@@ -34,7 +34,7 @@ class Memory(metaclass=Singleton):
         self.out = Output()
 
     def __repr__(self):
-        return create_table(self.bit_map) 
+        return tabela_aux(self.bit_map) 
     
     def __str__(self):
         return self.__repr__()
