@@ -52,8 +52,7 @@ class Memory(metaclass=Singleton):
 
     def __first_fit(self, pid, priority, size):
         result = self.__can_alloc(pid, priority, size)
-        if(result < 0):
-            return result
+        if(result < 0): return result
 
         start_index = 64 if priority > 0 else 0
         max_index = 1024 if priority > 0 else 64
@@ -70,8 +69,7 @@ class Memory(metaclass=Singleton):
     def malloc(self, priority, mem_block_size, pid):
         start_addr = self.__first_fit(pid, priority, mem_block_size)
 
-        if(start_addr < 0):
-            return start_addr
+        if(start_addr < 0): return start_addr
 
         for i in range(start_addr, start_addr+mem_block_size):
             self.bit_map[i] = '1'

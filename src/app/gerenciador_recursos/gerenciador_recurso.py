@@ -40,7 +40,6 @@ class GerenciadorRecurso(metaclass=Singleton):
                     return 1
                 self.out.error(ERRO_RECURSO_BLOQUEADO, pid=processo.pid, recurso=recurso, proc_quantity=proc_quantity, max_quantity=max_quantity, remaning=self.allocated_recursos[recurso], max_quantity_remaning=max_quantity - self.allocated_recursos[recurso])
                 return 0
-            
         return 1
 
     def request(self, processo):
@@ -55,7 +54,6 @@ class GerenciadorRecurso(metaclass=Singleton):
                 proc_quantity = getattr(processo, recurso.name.lower())
                 self.allocated_recursos[recurso] += proc_quantity
                 self.recurso_processo[recurso].append(processo.pid)
-
         return 1
 
     def deallocate(self, processo):

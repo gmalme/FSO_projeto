@@ -47,8 +47,7 @@ class Disco:
         """Aloca um bloco do tamanho fornecido para o arquivo especificado."""
         start_addr = self.__first_fit(tamanho_bloco)
 
-        if start_addr < 0:
-            return -1
+        if start_addr < 0: return -1
 
         self.preencher(start_addr, tamanho_bloco, nome_arquivo)
         return start_addr

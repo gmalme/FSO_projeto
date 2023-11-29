@@ -5,8 +5,8 @@ from utils.system_constants import *
 
 class GerenciadorMemoria(metaclass=Singleton):
     def __init__(self) -> None:
-        self.MEMORY_REAl_TIME_SIZE = 64
-        self.MEMORY_USER_SIZE = 960
+        self.MEMORY_REAl_TIME_SIZE = MEMORY_REAl_TIME_SIZE
+        self.MEMORY_USER_SIZE = MEMORY_USER_SIZE
 
 
         self.memory = Memory(self.MEMORY_REAl_TIME_SIZE, self.MEMORY_USER_SIZE)

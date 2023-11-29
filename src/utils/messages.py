@@ -1,7 +1,7 @@
 from colorama import Fore,Back,Style
 RESET_TEXT = Fore.RESET + Back.RESET + Style.RESET_ALL
-ERRO_PADRAO = Style.DIM + Back.WHITE + "\tErro | Processoo: {pid} "
-SUCESSO_PADRAO = Back.WHITE + "\tSucesso | Processoo: {pid} "
+ERRO_PADRAO = Style.DIM + Back.BLUE + "\tErro | Processoo: {pid} "
+SUCESSO_PADRAO = Back.BLUE + "\tSucesso | Processoo: {pid} "
 
 ERRO_SEM_MEMORIA = 1                      
 ERRO_SEM_DISCO = 2                     
@@ -46,7 +46,7 @@ SUCCESS_MESSAGES = {
 }
 
 LOG_MESSAGES = {
-    START_PROCESSO: "\n\tIdentificador: \n" + Style.DIM + Back.BLUE + "{processo}" + RESET_TEXT + "\nprocesso {pid} => \nP{pid} INICIADO",
+    START_PROCESSO: "\n\tIdentificador: \n" + Style.DIM + "{processo}" + RESET_TEXT + "\nprocesso {pid} => \nP{pid} INICIADO",
     PROCESSO_INSTRUCTION: "Processo: {pid} Operação {op}",
     PROCESSO_RETURN_SIGINT: "Processo: {pid} FINALIZADO",
 }

@@ -2,6 +2,7 @@ from queue import Queue
 from app.processo.processo import Processo
 from utils.output import Output
 from utils.messages import *
+from utils.system_constants import *
 
 
 class FilaUsuarios:
@@ -12,23 +13,24 @@ class FilaUsuarios:
         Prioridade 03 > 50
         """
         self.saida = Output()
-        self.fila1 = Queue() 
-        self.fila2 = Queue()  
-        self.fila3 = Queue()  
-        self.MAX_PRIORIDADE_FILA1 = 20
-        self.MAX_PRIORIDADE_FILA2 = 21
-        self.MAX_PRIORIDADE_FILA3 = 50
-        self.QUANTUM_FILA1 = 5
-        self.QUANTUM_FILA2 = 10
-        self.QUANTUM_FILA3 = 15
-        self.TEMPO_ESPERA_ENVELHECIMENTO = 5
+        self.fila1 = Queue()
+        self.fila2 = Queue()
+        self.fila3 = Queue()
+        self.MAX_PRIORIDADE_FILA1 = MAX_PRIORIDADE_FILA1
+        self.MAX_PRIORIDADE_FILA2 = MAX_PRIORIDADE_FILA2
+        self.MAX_PRIORIDADE_FILA3 = MAX_PRIORIDADE_FILA3
+        self.QUANTUM_FILA1 = QUANTUM_FILA1
+        self.QUANTUM_FILA2 = QUANTUM_FILA2
+        self.QUANTUM_FILA3 = QUANTUM_FILA3
+        self.TEMPO_ESPERA_ENVELHECIMENTO = TEMPO_ESPERA_ENVELHECIMENTO
 
     def obter_fila_quantum(self, fila):
         if fila == self.fila1:
             return self.QUANTUM_FILA1
-        if fila == self.fila2:
+        elif fila == self.fila2:
             return self.QUANTUM_FILA2
-        return self.QUANTUM_FILA3
+        else:
+            return self.QUANTUM_FILA3
 
     def inserir(self, processo: Processo):
         if processo.prioridade <= self.MAX_PRIORIDADE_FILA1:
@@ -50,8 +52,7 @@ class FilaUsuarios:
         return sum(fila.qsize() for fila in [self.fila1, self.fila2, self.fila3])
 
     def descer(self, processo, ultima_fila, interrupcao):
-        if not processo:
-            return
+        if not processo: return
 
         if interrupcao:
             ultima_fila.put(processo)

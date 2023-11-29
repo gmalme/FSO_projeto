@@ -81,8 +81,7 @@ class GerenciadorArquivos(metaclass=Singleton):
         else:
             start_addr = self.alocar(operacao.nome_arquivo, operacao.tamanho_bloco_criado, processo.pid)
 
-            if start_addr == -1:
-                return
+            if start_addr == -1: return
 
             novo_arquivo: Arquivo = Arquivo(operacao.nome_arquivo, str(start_addr), str(operacao.tamanho_bloco_criado), processo.pid)
             self.arquivos.append(novo_arquivo)

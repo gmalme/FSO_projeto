@@ -1,5 +1,6 @@
 from queue import Queue
 from app.filas.fila_usuarios import FilaUsuarios
+from utils.system_constants import *
 
 
 class FilaProcessos:
@@ -9,7 +10,7 @@ class FilaProcessos:
         """Inicializa o FilaProcessos."""
         self.fila_atual = Queue()
         self.fila_usuarios = FilaUsuarios()
-        self.TAMANHO_MAXIMO_TOTAL_DA_FILA = 1000
+        self.TAMANHO_MAXIMO_TOTAL_DA_FILA = TAMANHO_MAXIMO_TOTAL_DA_FILA
 
     def get_size(self) -> int:
         """Obtém o tamanho total das filas combinadas."""

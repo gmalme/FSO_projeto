@@ -154,9 +154,8 @@ class ProcessoGerenciador:
             if not self.fila.fila_usuarios.vazia():
                 controle=0
                 self.fila_lock.acquire()
-                if not self.fila.fila_atual.empty():
-                    self.fila_lock.release()
-                else:
+
+                if self.fila.fila_atual.empty():
                     first = self.fila.fila_usuarios.obter()
                     recursos = self.gerenciador_recurso.request(first[0])
                     if recursos:
@@ -166,6 +165,8 @@ class ProcessoGerenciador:
                         self.out.debug(PROCESSO_BLOQUEADO)
                         self.PROCESSO_BLOQUEADOs.append(first[0])
 
+                    self.fila_lock.release()
+                else:
                     self.fila_lock.release()
             time.sleep(1)
             controle+=1
