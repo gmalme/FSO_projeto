@@ -35,7 +35,7 @@ class ProcessoGerenciador:
         self.thread_usuarios = Thread(target=self.fila_thread_usuarios, daemon=True)
         self.fila_lock = Lock()
         self.terminated_processos = []
-        self.blocked_processos = []
+        self.PROCESSO_BLOQUEADOs = []
         self.flag_rt_interrupt = False
         self.out = Output()
         self.__wait_for_processo()
@@ -48,7 +48,7 @@ class ProcessoGerenciador:
 
     def inserir_processo_fila(self, processo: Processo):
         if self.fila.get_size() > self.fila.TAMANHO_MAXIMO_TOTAL_DA_FILA:
-            self.out.error(MAX_FILA_PROCESSOS_REACHED, pid=processo.pid, max_size=self.fila.TAMANHO_MAXIMO_TOTAL_DA_FILA)
+            self.out.error(ERRO_FILA_CHEIA, pid=processo.pid, max_size=self.fila.TAMANHO_MAXIMO_TOTAL_DA_FILA)
             return
 
         if processo.prioridade:
@@ -61,8 +61,8 @@ class ProcessoGerenciador:
             result = self.gerenciador_memoria.alocar(processo[0])
             if result == -2: return -1
             if result == -1:
-                self.out.debug(BLOCKED_PROCESSO)
-                self.blocked_processos.append(processo[0])
+                self.out.debug(PROCESSO_BLOQUEADO)
+                self.PROCESSO_BLOQUEADOs.append(processo[0])
                 return 0
         self.current_proc = processo
         return 1
@@ -72,12 +72,12 @@ class ProcessoGerenciador:
         self.thread_usuarios.start()
 
     def unblock_processos(self):
-        for blocked_processo in self.blocked_processos:
-            result_memo = self.gerenciador_memoria.alocar(blocked_processo)
-            result = self.gerenciador_recurso.request(blocked_processo)
+        for PROCESSO_BLOQUEADO in self.PROCESSO_BLOQUEADOs:
+            result_memo = self.gerenciador_memoria.alocar(PROCESSO_BLOQUEADO)
+            result = self.gerenciador_recurso.request(PROCESSO_BLOQUEADO)
             if result > 0 and result_memo >= 0:
-                self.blocked_processos.remove(blocked_processo)
-                self.fila.fila_usuarios.inserir(blocked_processo)
+                self.PROCESSO_BLOQUEADOs.remove(PROCESSO_BLOQUEADO)
+                self.fila.fila_usuarios.inserir(PROCESSO_BLOQUEADO)
                 break
 
     def real_time_running(self):
@@ -124,7 +124,7 @@ class ProcessoGerenciador:
             time.sleep(1)
 
         if processo.processo_time <= 0:
-            self.out.debug(DEALLOCATED_RECURSOS)
+            self.out.debug(RECURSO_LIBERADO)
             self.out.log(PROCESSO_RETURN_SIGINT, pid=processo.pid)
             self.gerenciador_recurso.deallocate(processo)
             self.terminated_processos.append(processo.pid)
@@ -136,7 +136,7 @@ class ProcessoGerenciador:
     def fila_atual_thread(self):
         controle = 0
         while controle < 10:
-            self.out.debug(WAITING_FOR_RT_PROCESSO)
+            self.out.debug(ESPERANDO_PROCESSO_TR)
             if not self.fila.fila_atual.empty():
                 controle=0
                 self.fila_lock.acquire()
@@ -150,7 +150,7 @@ class ProcessoGerenciador:
     def fila_thread_usuarios(self):
         controle = 0
         while controle < 10:
-            self.out.debug(WAITING_FOR_USUARIOS_PROCESSO)
+            self.out.debug(ESPERANDO_PROCESSO_USUARIO)
             if not self.fila.fila_usuarios.vazia():
                 controle=0
                 self.fila_lock.acquire()
@@ -163,8 +163,8 @@ class ProcessoGerenciador:
                         result = self.__context_switching(first)
                         if result > 0: self.usuarios_running()
                     elif not recursos:
-                        self.out.debug(BLOCKED_PROCESSO)
-                        self.blocked_processos.append(first[0])
+                        self.out.debug(PROCESSO_BLOQUEADO)
+                        self.PROCESSO_BLOQUEADOs.append(first[0])
 
                     self.fila_lock.release()
             time.sleep(1)

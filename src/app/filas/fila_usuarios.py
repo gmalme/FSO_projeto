@@ -60,7 +60,7 @@ class FilaUsuarios:
         aumento_prioridade = 6 if ultima_fila == self.fila2 else 8
         processo.prioridade = min(self.MAX_PRIORIDADE_FILA3 - 1, processo.prioridade + aumento_prioridade)
         self.fila3.put(processo)
-        self.saida.debug(DOWN_PROCESSO, pid=processo.pid, fila=3)
+        self.saida.debug(PROCESSO_DECREMENTADO, pid=processo.pid, fila=3)
 
     def envelhecer(self):
         for fila in [self.fila1, self.fila2, self.fila3]:
@@ -77,7 +77,7 @@ class FilaUsuarios:
             if processo.prioridade <= self.MAX_PRIORIDADE_FILA1:
                 self.fila1.put(processo)
                 fila2_copy.remove(processo)
-                self.saida.debug(UP_PROCESSO, pid=processo.pid, fila=1)
+                self.saida.debug(PROCESSO_INCRIMENTADO, pid=processo.pid, fila=1)
 
         for processo in self.fila3.queue:
             if self.MAX_PRIORIDADE_FILA1 < processo.prioridade < self.MAX_PRIORIDADE_FILA3:

@@ -18,11 +18,6 @@ class Processo:
 
     def __repr__(self) -> str:
         return f'''
-        PID: {self.pid}
-        blocks: {self.memoria_tamanho_bloco}
-        priority: {self.prioridade}
-        printers: {self.printer}
-        scanners: {self.scanner}
-        modems: {self.modem}
-        drives: {self.sata}
+        PID: {self.pid} | blocks: {self.memoria_tamanho_bloco} | priority: {self.prioridade} 
+        printers: {self.printer} | scanners: {self.scanner} | modems: {self.modem} | drives: {self.sata}
         '''

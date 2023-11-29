@@ -57,7 +57,7 @@ class GerenciadorArquivos(metaclass=Singleton):
         start_addr = self.disco.alocar(tamanho_arquivo, arquivonome)
 
         if start_addr < 0:
-            self.out.error(NOT_ENOUGH_SPACE, pid=pid, arquivonome=arquivonome)
+            self.out.error(ERRO_SEM_DISCO, pid=pid, arquivonome=arquivonome)
 
         return start_addr
 
@@ -67,17 +67,17 @@ class GerenciadorArquivos(metaclass=Singleton):
             arquivo = list(filter(lambda f: f.nome == operacao.nome_arquivo, self.arquivos))
 
             if len(arquivo) <= 0:
-                self.out.error(INEXISTENT_REMOVE_ARQUIVO, pid=processo.pid, arquivonome=operacao.nome_arquivo)
+                self.out.error(ERRO_ARQUIVO_INEXISTENTE, pid=processo.pid, arquivonome=operacao.nome_arquivo)
                 return
 
             arquivo = arquivo[0]
 
             if processo.pid != arquivo.criado_por and processo.pid != 0:
-                self.out.error(NO_PERMISSION_REMOVE_ARQUIVO, pid=processo.pid, arquivonome=operacao.nome_arquivo)
+                self.out.error(ERRO_SEM_PERMISSAO, pid=processo.pid, arquivonome=operacao.nome_arquivo)
                 return
 
             self.disco.liberar(arquivo.primeiro_bloco, arquivo.tamanho_bloco)
-            self.out.success(SUCCESSFUL_REMOVE_ARQUIVO, pid=processo.pid, arquivonome=operacao.nome_arquivo)
+            self.out.success(SUCESSO_ARQUIVO_REMOVIDO, pid=processo.pid, arquivonome=operacao.nome_arquivo)
         else:
             start_addr = self.alocar(operacao.nome_arquivo, operacao.tamanho_bloco_criado, processo.pid)
 
@@ -88,7 +88,7 @@ class GerenciadorArquivos(metaclass=Singleton):
             self.arquivos.append(novo_arquivo)
             blocos = list(range(start_addr, start_addr + operacao.tamanho_bloco_criado))
             blocos = list(map(lambda x: str(x), blocos))
-            self.out.success(SUCCESSFUL_REMOVE_ARQUIVO, pid=processo.pid, arquivonome=operacao.nome_arquivo,
+            self.out.success(SUCESSO_ARQUIVO_REMOVIDO, pid=processo.pid, arquivonome=operacao.nome_arquivo,
                              block_range=blocos)
 
     def obter_operacoes(self, pid: int):
@@ -99,4 +99,4 @@ class GerenciadorArquivos(metaclass=Singleton):
             restantes = self.obter_operacoes(proc_finalizado)
             if len(restantes) > 0:
                 for op_restante in restantes:
-                    self.out.error(OPERACAO_NOT_PERFORMED, pid=op_restante.processo_id, op=op_restante)
+                    self.out.error(ERRO_OPERACAO_BLOQUEADA, pid=op_restante.processo_id, op=op_restante)

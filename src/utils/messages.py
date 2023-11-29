@@ -1,60 +1,64 @@
-from colorama import Fore
+from colorama import Fore,Back,Style
+RESET_TEXT = Fore.RESET + Back.RESET + Style.RESET_ALL
+ERRO_PADRAO = Style.DIM + Back.WHITE + "\tErro | Processoo: {pid} "
+SUCESSO_PADRAO = Back.WHITE + "\tSucesso | Processoo: {pid} "
 
-NOT_ENOUGH_MEMO = 1                      
-NOT_ENOUGH_SPACE = 2                     
-NO_PERMISSION_REMOVE_ARQUIVO = 3           
-INEXISTENT_REMOVE_ARQUIVO = 4              
-EXCEEDED_RECURSOS = 5                  
-BLOCKED_DUE_RECURSOS = 6               
-OPERACAO_NOT_PERFORMED = 17            
-MAX_FILA_PROCESSOS_REACHED = 20        
-BLOCKED_DUE_MEMORIA = 21                 
+ERRO_SEM_MEMORIA = 1                      
+ERRO_SEM_DISCO = 2                     
+ERRO_SEM_PERMISSAO = 3           
+ERRO_ARQUIVO_INEXISTENTE = 4              
+ERRO_SEM_RECURSOS = 5                  
+ERRO_RECURSO_BLOQUEADO = 6               
+ERRO_OPERACAO_BLOQUEADA = 17            
+ERRO_FILA_CHEIA = 20        
+ERRO_PROCESSO_BLOQUEADO = 21                 
 
-SUCCESSFUL_REMOVE_ARQUIVO  = 7              
-SUCCESSFUL_CREATE_ARQUIVO = 8               
+SUCESSO_ARQUIVO_REMOVIDO  = 7              
+SUCESSO_ARQUIVO_CRIADO = 8               
 
 START_PROCESSO = 9                       
 PROCESSO_INSTRUCTION = 10
 PROCESSO_RETURN_SIGINT = 11
 
-DEALLOCATED_RECURSOS = 12
-WAITING_FOR_RT_PROCESSO = 13
-WAITING_FOR_USUARIOS_PROCESSO = 14
-BLOCKED_PROCESSO = 15
+RECURSO_LIBERADO = 12
+ESPERANDO_PROCESSO_TR = 13
+ESPERANDO_PROCESSO_USUARIO = 14
+PROCESSO_BLOQUEADO = 15
 DEBUG_MODE_ON = 16
-DOWN_PROCESSO = 18
-UP_PROCESSO = 19
+PROCESSO_DECREMENTADO = 18
+PROCESSO_INCRIMENTADO = 19
 
 ERROR_MESSAGES = {
-    NOT_ENOUGH_MEMO: "\n\ndispatcher => O processoo {pid} não pode ser alocado na memória por falta de espaço",
-    NOT_ENOUGH_SPACE: "\tSistema de arquivo => O processoo {pid} não pode criar o arquivo {arquivonome} (falta de espaço).",
-    NO_PERMISSION_REMOVE_ARQUIVO: "\tSistema de arquivo => O processoo {processo.pid} não pode deletar o arquivo {arquivonome} (sem permissão).",
-    INEXISTENT_REMOVE_ARQUIVO: "\tSistema de arquivo => O processoo {pid} não pode deletar o arquivo {arquivonome} porque ele não existe.",
-    EXCEEDED_RECURSOS: "\n\ndispatcher => O processoo {pid} não conseguiu ser criado (gerenciador_recursos insuficientes)",
-    BLOCKED_DUE_RECURSOS: "\n\ndispatcher => O processoo {pid} foi bloqueado (não conseguiu obter {recurso} - requisitado: {proc_quantity} (disponível {max_quantity_remaning})).",    OPERACAO_NOT_PERFORMED: "A operação \"{op}\" não foi executada pois o processoo {pid} encerrou antes",
-    MAX_FILA_PROCESSOS_REACHED: "O processoo {pid} não pode ser inserido na fila pois sua capacidade máxima foi atingida {max_size}",
-    BLOCKED_DUE_MEMORIA: "\n\ndispatcher => O processoo {pid} foi bloqueado (não conseguiu ser alocado na memória).",
+    ERRO_SEM_MEMORIA: ERRO_PADRAO + "(falta de espaço) - não há espaço na memoria para alocar o processo.",
+    ERRO_SEM_DISCO: ERRO_PADRAO + "(falta de espaço) - não há espaço no disco para alocar o arquivo {arquivonome}.",
+    ERRO_SEM_PERMISSAO: ERRO_PADRAO + "(sem permissão) - não tem permissão para deletar o arquivo {arquivonome}.",
+    ERRO_ARQUIVO_INEXISTENTE: ERRO_PADRAO + "(arquivo não localizado) - o arquivo {arquivonome} não foi localizado.",
+    ERRO_SEM_RECURSOS: ERRO_PADRAO + "(recursos insuficientes) - não foi criado por falta de recursos.",
+    ERRO_RECURSO_BLOQUEADO: ERRO_PADRAO + "(foi bloqueado) - não conseguiu obter {recurso} - requisitado: {proc_quantity} (disponível {max_quantity_remaning}).",   
+    ERRO_OPERACAO_BLOQUEADA: "Erro | Operação: \"{op}\" não foi executada pois o processoo {pid} encerrou antes",
+    ERRO_FILA_CHEIA: ERRO_PADRAO + "(fila cheia) - não pode ser inserido na fila pois sua capacidade máxima foi atingida {max_size}",
+    ERRO_PROCESSO_BLOQUEADO: ERRO_PADRAO + "(não conseguiu ser alocado na memória) - foi bloqueado.",
 }
 
 SUCCESS_MESSAGES = {
-    SUCCESSFUL_REMOVE_ARQUIVO: "\tSistema de arquivo => O processoo {pid} deletou o arquivo {arquivonome}.",
-    SUCCESSFUL_CREATE_ARQUIVO: "\tSistema de arquivo => O processoo {pid} criou o arquivo {arquivonome} (blocos {' '.join(block_range)}).",
+    SUCESSO_ARQUIVO_REMOVIDO: SUCESSO_PADRAO + "deletou o arquivo {arquivonome}.",
+    SUCESSO_ARQUIVO_CRIADO: SUCESSO_PADRAO + "criou o arquivo {arquivonome} (blocos {' '.join(block_range)}).",
 }
 
 LOG_MESSAGES = {
-    START_PROCESSO: "\n\ndispatcher => {processo} \nprocesso {pid} => \nP{pid} STARTED",
-    PROCESSO_INSTRUCTION: "P{pid} instruction {op}",
-    PROCESSO_RETURN_SIGINT: "P{pid} return SIGINT",
+    START_PROCESSO: "\n\tIdentificador: \n" + Style.DIM + Back.BLUE + "{processo}" + RESET_TEXT + "\nprocesso {pid} => \nP{pid} INICIADO",
+    PROCESSO_INSTRUCTION: "Processo: {pid} Operação {op}",
+    PROCESSO_RETURN_SIGINT: "Processo: {pid} FINALIZADO",
 }
 
 DEBUG_MESSAGES = {
-    DEALLOCATED_RECURSOS: 'desalocou gerenciador_recursos',
-    WAITING_FOR_RT_PROCESSO: 'esperando por processoo rt...',
-    WAITING_FOR_USUARIOS_PROCESSO: 'esperando por processoo usuario...',
-    BLOCKED_PROCESSO: 'processoo bloqueou',
-    DEBUG_MODE_ON: Fore.GREEN + 'DEGUB MODE ON' + Fore.RESET,
-    DOWN_PROCESSO: Fore.BLUE + 'processo {pid} desceu para fila {fila}' + Fore.RESET,
-    UP_PROCESSO: Fore.BLUE + 'processo {pid} subiu para fila {fila}' + Fore.RESET,
+    RECURSO_LIBERADO: 'desalocou gerenciador recursos',
+    ESPERANDO_PROCESSO_TR: 'esperando por processo de tempo real...',
+    ESPERANDO_PROCESSO_USUARIO: 'esperando por processo de usuario...',
+    PROCESSO_BLOQUEADO: 'processo foi bloqueado',
+    DEBUG_MODE_ON: Fore.GREEN + 'DEGUB MODE ON' + RESET_TEXT,
+    PROCESSO_DECREMENTADO: Fore.BLUE + 'processo {pid} desceu para fila {fila}' + RESET_TEXT,
+    PROCESSO_INCRIMENTADO: Fore.BLUE + 'processo {pid} subiu para fila {fila}' + RESET_TEXT,
 }
 
 MAX_SIZE = 100
@@ -62,6 +66,4 @@ MAX_SIZE = 100
 ERROR_COLOR = 'RED'
 SUCCESS_COLOR = 'GREEN'
 LOG_COLOR = 'MAGENTA'
-DEBUG_COLOR = 'YELLOW'
-
-RESET_TEXT = Fore.RESET
+DEBUG_COLOR = 'CYAN'

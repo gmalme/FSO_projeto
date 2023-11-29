@@ -32,13 +32,13 @@ class GerenciadorRecurso(metaclass=Singleton):
             proc_quantity = getattr(processo, recurso.name.lower())
 
             if proc_quantity > max_quantity:
-                self.out.error(EXCEEDED_RECURSOS, pid=processo.pid)
+                self.out.error(ERRO_SEM_RECURSOS, pid=processo.pid)
                 return -1
             remaining_quantity = max_quantity - self.allocated_recursos[recurso]
             if proc_quantity > remaining_quantity:
                 if processo.pid in self.recurso_processo[recurso]:
                     return 1
-                self.out.error(BLOCKED_DUE_RECURSOS, pid=processo.pid, recurso=recurso, proc_quantity=proc_quantity, max_quantity=max_quantity, remaning=self.allocated_recursos[recurso], max_quantity_remaning=max_quantity - self.allocated_recursos[recurso])
+                self.out.error(ERRO_RECURSO_BLOQUEADO, pid=processo.pid, recurso=recurso, proc_quantity=proc_quantity, max_quantity=max_quantity, remaning=self.allocated_recursos[recurso], max_quantity_remaning=max_quantity - self.allocated_recursos[recurso])
                 return 0
             
         return 1
@@ -47,7 +47,7 @@ class GerenciadorRecurso(metaclass=Singleton):
         try:
             self.__check_recurso_availability(processo)
         except ValueError as e:
-            self.out.error(BLOCKED_DUE_RECURSOS, pid=processo.pid, recurso=str(e))
+            self.out.error(ERRO_RECURSO_BLOQUEADO, pid=processo.pid, recurso=str(e))
             return 0
 
         for recurso in self.recursos:

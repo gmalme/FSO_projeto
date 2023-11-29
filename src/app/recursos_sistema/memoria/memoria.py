@@ -21,11 +21,11 @@ class Memory(metaclass=Singleton):
     def __can_alloc(self, pid, priority, size):
         if(priority > 0):
             if(size > self.user_size):
-                self.out.error(NOT_ENOUGH_MEMO, pid=pid)
+                self.out.error(ERRO_SEM_MEMORIA, pid=pid)
                 return -2
         else:
             if(size > self.real_time_size):
-                self.out.error(NOT_ENOUGH_MEMO, pid=pid)
+                self.out.error(ERRO_SEM_MEMORIA, pid=pid)
                 return -2
             
         return 1
@@ -45,7 +45,7 @@ class Memory(metaclass=Singleton):
                 if(space.count('0') == size):
                     return index
 
-        self.out.error(BLOCKED_DUE_MEMORIA, pid=pid)
+        self.out.error(ERRO_PROCESSO_BLOQUEADO, pid=pid)
         return -1    
 
     def malloc(self, priority, mem_block_size, pid):
