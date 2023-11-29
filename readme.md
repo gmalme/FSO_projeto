@@ -4,9 +4,9 @@
 
 Alunos:
         
-    Gabriel Faustino Lima da Rocha 190013249
-    Gustavo Rodrigues dos Santos 190014121
-    Pedro de Torres Maschio 190018763
+    Daniel Rodrigues Cardoso
+    Carlos Eduardo da Silva Andrade
+    Gabriel Martins de Almeida
 
 ### Execução
 
