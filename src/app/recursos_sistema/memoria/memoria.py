@@ -1,6 +1,8 @@
 from utils.singleton import Singleton
 from utils.output import *
 from utils.messages import *
+from src.app.recursos_sistema.memoria.bit_enum import Bit
+
 
 
 def create_table(row_data):
@@ -72,10 +74,10 @@ class Memory(metaclass=Singleton):
         if(start_addr < 0): return start_addr
 
         for i in range(start_addr, start_addr+mem_block_size):
-            self.bit_map[i] = '1'
+            self.bit_map[i] = Bit.OCUPADO.value
 
         return start_addr
 
     def free(self, start_addr, block_size):
         for i in range(start_addr, start_addr+block_size):
-            self.bit_map[i] = '0'
+            self.bit_map[i] = Bit.LIVRE.value
