@@ -1,6 +1,6 @@
 from colorama import Fore
 from utils.singleton import Singleton
-from utils.messages import ERROR_MESSAGES, SUCCESS_MESSAGES, LOG_MESSAGES, DEBUG_MESSAGES, MAX_SIZE, ERROR_COLOR, SUCCESS_COLOR, LOG_COLOR, DEBUG_COLOR, RESET_TEXT
+from utils.messages import MENSAGENS_DE_ERRO, MENSAGENS_DE_SUCESSO, MENSAGENS_DE_LOG, MENSAGENS_DE_DEBUG, MAX_SIZE, COR_ERRO, COR_SUCESSO, COR_LOG, COR_DEBUG, RESET_TEXT
 
 class Output(metaclass=Singleton):
 
@@ -15,16 +15,16 @@ class Output(metaclass=Singleton):
         self._print_colored(msg, color)
 
     def error(self, code, **kwargs):
-        self._print_message(code, ERROR_MESSAGES, ERROR_COLOR, **kwargs)
+        self._print_message(code, MENSAGENS_DE_ERRO, COR_ERRO, **kwargs)
 
     def success(self, code, **kwargs):
-        self._print_message(code, SUCCESS_MESSAGES, SUCCESS_COLOR, **kwargs)
+        self._print_message(code, MENSAGENS_DE_SUCESSO, COR_SUCESSO, **kwargs)
 
     def log(self, code, **kwargs):
-        self._print_message(code, LOG_MESSAGES, LOG_COLOR, **kwargs)
+        self._print_message(code, MENSAGENS_DE_LOG, COR_LOG, **kwargs)
 
     def debug(self, code, *args, **kwargs):
         if not self.debug_mode:
             return
 
-        self._print_message(code, DEBUG_MESSAGES, DEBUG_COLOR, **kwargs)
+        self._print_message(code, MENSAGENS_DE_DEBUG, COR_DEBUG, **kwargs)

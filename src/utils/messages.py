@@ -28,42 +28,42 @@ DEBUG_MODE_ON = 16
 PROCESSO_DECREMENTADO = 18
 PROCESSO_INCRIMENTADO = 19
 
-ERROR_MESSAGES = {
-    ERRO_SEM_MEMORIA: ERRO_PADRAO + "(falta de espaço) - não há espaço na memoria para alocar o processo.",
-    ERRO_SEM_DISCO: ERRO_PADRAO + "(falta de espaço) - não há espaço no disco para alocar o arquivo {arquivonome}.",
-    ERRO_SEM_PERMISSAO: ERRO_PADRAO + "(sem permissão) - não tem permissão para deletar o arquivo {arquivonome}.",
-    ERRO_ARQUIVO_INEXISTENTE: ERRO_PADRAO + "(arquivo não localizado) - o arquivo {arquivonome} não foi localizado.",
-    ERRO_SEM_RECURSOS: ERRO_PADRAO + "(recursos insuficientes) - não foi criado por falta de recursos.",
-    ERRO_RECURSO_BLOQUEADO: ERRO_PADRAO + "(foi bloqueado) - não conseguiu obter {recurso} - requisitado: {proc_quantity} (disponível {max_quantity_remaning}).",   
-    ERRO_OPERACAO_BLOQUEADA: "Erro | Operação: \"{op}\" não foi executada pois o processoo {pid} encerrou antes",
-    ERRO_FILA_CHEIA: ERRO_PADRAO + "(fila cheia) - não pode ser inserido na fila pois sua capacidade máxima foi atingida {max_size}",
-    ERRO_PROCESSO_BLOQUEADO: ERRO_PADRAO + "(não conseguiu ser alocado na memória) - foi bloqueado.",
-}
-
-SUCCESS_MESSAGES = {
-    SUCESSO_ARQUIVO_REMOVIDO: SUCESSO_PADRAO + "deletou o arquivo {arquivonome}.",
-    SUCESSO_ARQUIVO_CRIADO: SUCESSO_PADRAO + "criou o arquivo {arquivonome} ).",
-}
-
-LOG_MESSAGES = {
-    START_PROCESSO: "\n\tIdentificador: \n" + Style.DIM + "{processo}" + RESET_TEXT + "\nprocesso {pid} => \nP{pid} INICIADO",
-    PROCESSO_INSTRUCTION: "Processo: {pid} Operação {op}",
-    PROCESSO_RETURN_SIGINT: "Processo: {pid} FINALIZADO",
-}
-
-DEBUG_MESSAGES = {
-    RECURSO_LIBERADO: 'desalocou gerenciador recursos',
-    ESPERANDO_PROCESSO_TR: 'esperando por processo de tempo real...',
-    ESPERANDO_PROCESSO_USUARIO: 'esperando por processo de usuario...',
-    PROCESSO_BLOQUEADO: 'processo foi bloqueado',
-    DEBUG_MODE_ON: Fore.GREEN + 'DEGUB MODE ON' + RESET_TEXT,
-    PROCESSO_DECREMENTADO: Fore.BLUE + 'processo {pid} desceu para fila {fila}' + RESET_TEXT,
-    PROCESSO_INCRIMENTADO: Fore.BLUE + 'processo {pid} subiu para fila {fila}' + RESET_TEXT,
-}
-
 MAX_SIZE = 100
 
-ERROR_COLOR = 'RED'
-SUCCESS_COLOR = 'GREEN'
-LOG_COLOR = 'MAGENTA'
-DEBUG_COLOR = 'CYAN'
+COR_ERRO = 'RED'
+COR_SUCESSO = 'GREEN'
+COR_LOG = 'MAGENTA'
+COR_DEBUG = 'CYAN'
+
+MENSAGENS_DE_SUCESSO = {
+    SUCESSO_ARQUIVO_CRIADO: SUCESSO_PADRAO + "criou o arquivo {arquivonome} ).",
+    SUCESSO_ARQUIVO_REMOVIDO: SUCESSO_PADRAO + "deletou o arquivo {arquivonome}.",
+}
+
+MENSAGENS_DE_ERRO = {
+    ERRO_PROCESSO_BLOQUEADO: ERRO_PADRAO + "(não conseguiu ser alocado na memória) - foi bloqueado.",
+    ERRO_SEM_RECURSOS: ERRO_PADRAO + "(recursos insuficientes) - não foi criado por falta de recursos.",
+    ERRO_SEM_MEMORIA: ERRO_PADRAO + "(falta de espaço) - não há espaço na memoria para alocar o processo.",
+    ERRO_OPERACAO_BLOQUEADA: "Erro | Operação: \"{op}\" não foi executada pois o processoo {pid} encerrou antes",
+    ERRO_SEM_PERMISSAO: ERRO_PADRAO + "(sem permissão) - não tem permissão para deletar o arquivo {arquivonome}.",
+    ERRO_SEM_DISCO: ERRO_PADRAO + "(falta de espaço) - não há espaço no disco para alocar o arquivo {arquivonome}.",
+    ERRO_ARQUIVO_INEXISTENTE: ERRO_PADRAO + "(arquivo não localizado) - o arquivo {arquivonome} não foi localizado.",
+    ERRO_FILA_CHEIA: ERRO_PADRAO + "(fila cheia) - não pode ser inserido na fila pois sua capacidade máxima foi atingida {max_size}",
+    ERRO_RECURSO_BLOQUEADO: ERRO_PADRAO + "(foi bloqueado) - não conseguiu obter {recurso} - requisitado: {proc_quantity} (disponível {max_quantity_remaning}).",   
+}
+
+MENSAGENS_DE_LOG = {
+    PROCESSO_RETURN_SIGINT: "Processo: {pid} FINALIZADO",
+    PROCESSO_INSTRUCTION: "Processo: {pid} Operação {op}",
+    START_PROCESSO: "\n\tIdentificador: \n" + Style.DIM + "{processo}" + RESET_TEXT + "\nprocesso {pid} => \nP{pid} INICIADO",
+}
+
+MENSAGENS_DE_DEBUG = {
+    PROCESSO_BLOQUEADO: 'processo foi bloqueado',
+    RECURSO_LIBERADO: 'desalocou gerenciador recursos',
+    DEBUG_MODE_ON: Fore.GREEN + 'DEGUB MODE ON' + RESET_TEXT,
+    ESPERANDO_PROCESSO_TR: 'esperando por processo de tempo real...',
+    ESPERANDO_PROCESSO_USUARIO: 'esperando por processo de usuario...',
+    PROCESSO_INCRIMENTADO: Fore.BLUE + 'processo {pid} subiu para fila {fila}' + RESET_TEXT,
+    PROCESSO_DECREMENTADO: Fore.BLUE + 'processo {pid} desceu para fila {fila}' + RESET_TEXT,
+}
