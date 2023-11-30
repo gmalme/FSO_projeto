@@ -24,13 +24,6 @@ class FilaUsuarios:
         self.QUANTUM_FILA3 = QUANTUM_FILA3
         self.TEMPO_ESPERA_ENVELHECIMENTO = TEMPO_ESPERA_ENVELHECIMENTO
 
-    def obter_fila_quantum(self, fila):
-        if fila == self.fila1:
-            return self.QUANTUM_FILA1
-        elif fila == self.fila2:
-            return self.QUANTUM_FILA2
-        else:
-            return self.QUANTUM_FILA3
 
     def inserir(self, processo: Processo):
         if processo.prioridade <= self.MAX_PRIORIDADE_FILA1:
@@ -39,28 +32,6 @@ class FilaUsuarios:
             self.fila2.put(processo)
         else:
             self.fila3.put(processo)
-
-    def vazia(self):
-        return all(fila.empty() for fila in [self.fila1, self.fila2, self.fila3])
-
-    def obter(self):
-        for fila in [self.fila1, self.fila2, self.fila3]:
-            if not fila.empty():
-                return fila.get(), fila
-
-    def tamanho_fila(self):
-        return sum(fila.qsize() for fila in [self.fila1, self.fila2, self.fila3])
-
-    def descer(self, processo, ultima_fila, interrupcao):
-        if not processo: return
-
-        if interrupcao:
-            ultima_fila.put(processo)
-            return
-
-        aumento_prioridade = 6 if ultima_fila == self.fila2 else 8
-        processo.prioridade = min(self.MAX_PRIORIDADE_FILA3 - 1, processo.prioridade + aumento_prioridade)
-        self.fila3.put(processo)
 
     def envelhecer(self):
         for fila in [self.fila1, self.fila2, self.fila3]:
@@ -85,3 +56,34 @@ class FilaUsuarios:
 
         self.fila2.queue = fila2_copy.copy()
         self.fila3.queue = fila3_copy.copy()
+
+
+    def vazia(self):
+        return all(fila.empty() for fila in [self.fila1, self.fila2, self.fila3])
+
+    def obter(self):
+        for fila in [self.fila1, self.fila2, self.fila3]:
+            if not fila.empty():
+                return fila.get(), fila
+
+    def tamanho_fila(self):
+        return sum(fila.qsize() for fila in [self.fila1, self.fila2, self.fila3])
+
+    def descer(self, processo, ultima_fila, interrupcao):
+        if not processo: return
+
+        if interrupcao:
+            ultima_fila.put(processo)
+            return
+
+        aumento_prioridade = 6 if ultima_fila == self.fila2 else 8
+        processo.prioridade = min(self.MAX_PRIORIDADE_FILA3 - 1, processo.prioridade + aumento_prioridade)
+        self.fila3.put(processo)
+
+    def obter_fila_quantum(self, fila):
+        if fila == self.fila1:
+            return self.QUANTUM_FILA1
+        elif fila == self.fila2:
+            return self.QUANTUM_FILA2
+        else:
+            return self.QUANTUM_FILA3

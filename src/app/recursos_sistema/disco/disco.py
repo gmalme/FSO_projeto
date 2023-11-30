@@ -32,6 +32,12 @@ class Disco:
     def __str__(self):
         return self.__repr__()
 
+    def preencher(self, start_addr, tamanho_bloco, nome_arquivo):
+        """Preenche o bloco especificado com o nome do arquivo fornecido."""
+        for i in range(start_addr, start_addr + tamanho_bloco):
+            self.mapa_bits[i] = nome_arquivo
+
+
     def __first_fit(self, tamanho_bloco):
         """Encontra o primeiro espaço disponível para um bloco do tamanho fornecido."""
         assert 0 < tamanho_bloco <= self.tamanho, "Tamanho de bloco inválido"
@@ -52,10 +58,6 @@ class Disco:
         self.preencher(start_addr, tamanho_bloco, nome_arquivo)
         return start_addr
 
-    def preencher(self, start_addr, tamanho_bloco, nome_arquivo):
-        """Preenche o bloco especificado com o nome do arquivo fornecido."""
-        for i in range(start_addr, start_addr + tamanho_bloco):
-            self.mapa_bits[i] = nome_arquivo
 
     def liberar(self, start_addr, tamanho_bloco):
         """Libera o bloco especificado."""

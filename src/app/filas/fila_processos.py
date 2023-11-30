@@ -12,6 +12,6 @@ class FilaProcessos:
         self.fila_usuarios = FilaUsuarios()
         self.TAMANHO_MAXIMO_TOTAL_DA_FILA = TAMANHO_MAXIMO_TOTAL_DA_FILA
 
-    def get_size(self) -> int:
+    def get_tamanho(self) -> int:
         """Obtém o tamanho total das filas combinadas."""
         return self.fila_atual.qsize() + self.fila_usuarios.tamanho_fila()

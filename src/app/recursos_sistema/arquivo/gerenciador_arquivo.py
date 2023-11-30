@@ -35,6 +35,17 @@ class GerenciadorArquivos(metaclass=Singleton):
         self.operacoes: list = []
         self.out = Output()
 
+    def obter_operacoes(self, pid: int):
+        return list(filter(lambda o: o.processo_id == pid, self.operacoes))
+
+    def verificar_operacoes_restantes(self, processos_finalizados):
+        for proc_finalizado in processos_finalizados:
+            restantes = self.obter_operacoes(proc_finalizado)
+            if len(restantes) > 0:
+                for op_restante in restantes:
+                    self.out.error(ERRO_OPERACAO_BLOQUEADA, pid=op_restante.processo_id, op=op_restante)
+
+
     def ler_arquivos(self) -> None:
         with open(ROOT_DIR + '/input/arquivos.txt') as arquivos_arquivo:
             list_line = arquivos_arquivo.readlines()
@@ -90,12 +101,3 @@ class GerenciadorArquivos(metaclass=Singleton):
             self.out.success(SUCESSO_ARQUIVO_CRIADO, pid=processo.pid, arquivonome=operacao.nome_arquivo,
                              block_range=blocos)
 
-    def obter_operacoes(self, pid: int):
-        return list(filter(lambda o: o.processo_id == pid, self.operacoes))
-
-    def verificar_operacoes_restantes(self, processos_finalizados):
-        for proc_finalizado in processos_finalizados:
-            restantes = self.obter_operacoes(proc_finalizado)
-            if len(restantes) > 0:
-                for op_restante in restantes:
-                    self.out.error(ERRO_OPERACAO_BLOQUEADA, pid=op_restante.processo_id, op=op_restante)
