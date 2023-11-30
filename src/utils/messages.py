@@ -36,7 +36,7 @@ COR_LOG = 'MAGENTA'
 COR_DEBUG = 'CYAN'
 
 MENSAGENS_DE_SUCESSO = {
-    SUCESSO_ARQUIVO_CRIADO: SUCESSO_PADRAO + "criou o arquivo {arquivonome} ).",
+    SUCESSO_ARQUIVO_CRIADO: SUCESSO_PADRAO + "criou o arquivo {arquivonome}.",
     SUCESSO_ARQUIVO_REMOVIDO: SUCESSO_PADRAO + "deletou o arquivo {arquivonome}.",
 }
 
