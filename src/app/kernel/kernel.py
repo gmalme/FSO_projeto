@@ -24,22 +24,6 @@ class Kernel:
         self.gerenciador_memoria = GerenciadorMemoria()
         self.gerenciador_processo = ProcessoGerenciador()
 
-    def disparar_manualmente(self):
-        for processo in self.gerenciador_processo.tabela_processos:
-            self.gerenciador_processo.inserir_processo_fila(processo)
-            time.sleep(2)
-
-    def disparar_processo(self):
-        """Disparar processos na fila com base no tempo de início."""
-        processos_ordenados = sorted(self.gerenciador_processo.tabela_processos, key=operator.attrgetter('tempo_inicio'))
-        acumulador = 0
-        for processo in processos_ordenados:
-            tempo_espera = processo.tempo_inicio - acumulador
-            if tempo_espera > 0:
-                time.sleep(tempo_espera)
-            with self.gerenciador_processo.fila_lock:
-                self.gerenciador_processo.inserir_processo_fila(processo)
-            acumulador = processo.tempo_inicio
 
     def executar(self) -> None:
         try:
@@ -59,3 +43,22 @@ class Kernel:
     def iniciar(self) -> None:
         self.gerenciador_processo.ler_processos()
         self.gerenciador_arquivo.ler_arquivos()
+
+    def disparar_manualmente(self):
+        for processo in self.gerenciador_processo.tabela_processos:
+            self.gerenciador_processo.inserir_processo_fila(processo)
+            time.sleep(2)
+
+    def disparar_processo(self):
+        """Disparar processos na fila com base no tempo de início."""
+        processos_ordenados = sorted(self.gerenciador_processo.tabela_processos, key=operator.attrgetter('tempo_inicio'))
+        acumulador = 0
+        for processo in processos_ordenados:
+            tempo_espera = processo.tempo_inicio - acumulador
+            if tempo_espera > 0:
+                time.sleep(tempo_espera)
+            with self.gerenciador_processo.fila_lock:
+                self.gerenciador_processo.inserir_processo_fila(processo)
+            acumulador = processo.tempo_inicio
+
+

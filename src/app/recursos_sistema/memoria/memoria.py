@@ -39,7 +39,22 @@ class Memory(metaclass=Singleton):
     def __str__(self):
         return self.__repr__()
 
-    def __can_alloc(self, pid, priority, size):
+    def malloc(self, priority, mem_block_size, pid):
+        start_addr = self.__first_fit(pid, priority, mem_block_size)
+
+        if(start_addr < 0): return start_addr
+
+        for i in range(start_addr, start_addr+mem_block_size):
+            self.bit_map[i] = Bit.OCUPADO.value
+
+        return start_addr
+
+    def free(self, start_addr, block_size):
+        for i in range(start_addr, start_addr+block_size):
+            self.bit_map[i] = Bit.LIVRE.value
+
+
+    def pode_alocar(self, pid, priority, size):
         if(priority > 0):
             if(size > self.user_size):
                 self.out.error(ERRO_SEM_MEMORIA, pid=pid)
@@ -53,7 +68,7 @@ class Memory(metaclass=Singleton):
     
 
     def __first_fit(self, pid, priority, size):
-        result = self.__can_alloc(pid, priority, size)
+        result = self.pode_alocar(pid, priority, size)
         if(result < 0): return result
 
         start_index = 64 if priority > 0 else 0
@@ -68,16 +83,3 @@ class Memory(metaclass=Singleton):
         self.out.error(ERRO_PROCESSO_BLOQUEADO, pid=pid)
         return -1    
 
-    def malloc(self, priority, mem_block_size, pid):
-        start_addr = self.__first_fit(pid, priority, mem_block_size)
-
-        if(start_addr < 0): return start_addr
-
-        for i in range(start_addr, start_addr+mem_block_size):
-            self.bit_map[i] = Bit.OCUPADO.value
-
-        return start_addr
-
-    def free(self, start_addr, block_size):
-        for i in range(start_addr, start_addr+block_size):
-            self.bit_map[i] = Bit.LIVRE.value

@@ -27,7 +27,23 @@ class GerenciadorRecurso(metaclass=Singleton):
             Recurso.SATA: []
         }
 
-    def __check_recurso_availability(self, processo):
+
+
+    def request(self, processo):
+        try:
+            self.checa_disponibilidade_recurso(processo)
+        except ValueError as e:
+            self.out.error(ERRO_RECURSO_BLOQUEADO, pid=processo.pid, recurso=str(e))
+            return 0
+
+        for recurso in self.recursos:
+            if processo.pid not in self.recurso_processo[recurso]:
+                proc_quantity = getattr(processo, recurso.name.lower())
+                self.allocated_recursos[recurso] += proc_quantity
+                self.recurso_processo[recurso].append(processo.pid)
+        return 1
+
+    def checa_disponibilidade_recurso(self, processo):
         for recurso, max_quantity in self.recursos.items():
             proc_quantity = getattr(processo, recurso.name.lower())
 
@@ -41,21 +57,6 @@ class GerenciadorRecurso(metaclass=Singleton):
                 self.out.error(ERRO_RECURSO_BLOQUEADO, pid=processo.pid, recurso=recurso, proc_quantity=proc_quantity, max_quantity=max_quantity, remaning=self.allocated_recursos[recurso], max_quantity_remaning=max_quantity - self.allocated_recursos[recurso])
                 return 0
         return 1
-
-    def request(self, processo):
-        try:
-            self.__check_recurso_availability(processo)
-        except ValueError as e:
-            self.out.error(ERRO_RECURSO_BLOQUEADO, pid=processo.pid, recurso=str(e))
-            return 0
-
-        for recurso in self.recursos:
-            if processo.pid not in self.recurso_processo[recurso]:
-                proc_quantity = getattr(processo, recurso.name.lower())
-                self.allocated_recursos[recurso] += proc_quantity
-                self.recurso_processo[recurso].append(processo.pid)
-        return 1
-
     def deallocate(self, processo):
         for recurso in self.recursos:
             proc_quantity = getattr(processo, recurso.name.lower())

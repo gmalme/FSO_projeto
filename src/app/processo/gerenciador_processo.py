@@ -40,21 +40,6 @@ class ProcessoGerenciador:
         self.out = Output()
         self.__wait_for_processo()
 
-    def ler_processos(self) -> None:
-        processo_list = []
-        with open(ROOT_DIR + '/input/processos.txt') as processos_arquivo: processo_list = processos_arquivo.readlines()
-
-        self.tabela_processos = [Processo(p.split(','), id) for (id, p) in enumerate(processo_list)]
-
-    def inserir_processo_fila(self, processo: Processo):
-        if self.fila.get_size() > self.fila.TAMANHO_MAXIMO_TOTAL_DA_FILA:
-            self.out.error(ERRO_FILA_CHEIA, pid=processo.pid, max_size=self.fila.TAMANHO_MAXIMO_TOTAL_DA_FILA)
-            return
-
-        if processo.prioridade:
-            self.fila.fila_usuarios.inserir(processo)
-        else:
-            self.fila.fila_atual.put(processo)
 
     def __context_switching(self, processo):
         if processo[0]:
@@ -70,6 +55,24 @@ class ProcessoGerenciador:
     def __wait_for_processo(self):
         self.thread_tempo_real.start()
         self.thread_usuarios.start()
+
+
+    def ler_processos(self) -> None:
+        processo_list = []
+        with open(ROOT_DIR + '/input/processos.txt') as processos_arquivo: processo_list = processos_arquivo.readlines()
+
+        self.tabela_processos = [Processo(p.split(','), id) for (id, p) in enumerate(processo_list)]
+
+    def inserir_processo_fila(self, processo: Processo):
+        if self.fila.get_tamanho() > self.fila.TAMANHO_MAXIMO_TOTAL_DA_FILA:
+            self.out.error(ERRO_FILA_CHEIA, pid=processo.pid, max_size=self.fila.TAMANHO_MAXIMO_TOTAL_DA_FILA)
+            return
+
+        if processo.prioridade:
+            self.fila.fila_usuarios.inserir(processo)
+        else:
+            self.fila.fila_atual.put(processo)
+
 
     def unblock_processos(self):
         for PROCESSO_BLOQUEADO in self.PROCESSO_BLOQUEADOs:

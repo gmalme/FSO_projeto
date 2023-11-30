@@ -12,6 +12,10 @@ class GerenciadorMemoria(metaclass=Singleton):
         self.memory = Memory(self.MEMORY_REAl_TIME_SIZE, self.MEMORY_USER_SIZE)
         self.allocated_process = []
 
+    def liberar(self, Processo: Processo):
+        self.memory.free(Processo.memoria_inicio_bloco, Processo.memoria_tamanho_bloco)
+        self.allocated_process.remove(Processo.pid)
+
     def alocar(self, Processo: Processo):
         if(Processo.pid in self.allocated_process):
             return Processo.memoria_inicio_bloco
@@ -21,6 +25,3 @@ class GerenciadorMemoria(metaclass=Singleton):
             self.allocated_process.append(Processo.pid)
         return Processo.memoria_inicio_bloco
     
-    def liberar(self, Processo: Processo):
-        self.memory.free(Processo.memoria_inicio_bloco, Processo.memoria_tamanho_bloco)
-        self.allocated_process.remove(Processo.pid)
