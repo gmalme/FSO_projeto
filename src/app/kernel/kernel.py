@@ -16,9 +16,6 @@ class Kernel:
     CAMINHO_SAIDA_DISCO = os.path.join(ROOT_DIR, 'output', 'disco.out')
 
     def __init__(self) -> None:
-        if len(argv) > 1 and argv[1] == '-d':
-            Output(True).debug(DEBUG_MODE_ON)
-
         self.gerenciador_arquivo = GerenciadorArquivos()
         self.gerenciador_recurso = GerenciadorRecurso()
         self.gerenciador_memoria = GerenciadorMemoria()

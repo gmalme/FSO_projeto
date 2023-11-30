@@ -24,7 +24,6 @@ RECURSO_LIBERADO = 12
 ESPERANDO_PROCESSO_TR = 13
 ESPERANDO_PROCESSO_USUARIO = 14
 PROCESSO_BLOQUEADO = 15
-DEBUG_MODE_ON = 16
 PROCESSO_DECREMENTADO = 18
 PROCESSO_INCRIMENTADO = 19
 
@@ -33,7 +32,6 @@ MAX_SIZE = 100
 COR_ERRO = 'RED'
 COR_SUCESSO = 'GREEN'
 COR_LOG = 'MAGENTA'
-COR_DEBUG = 'CYAN'
 
 MENSAGENS_DE_SUCESSO = {
     SUCESSO_ARQUIVO_CRIADO: SUCESSO_PADRAO + "criou o arquivo {arquivonome} ).",
@@ -56,14 +54,4 @@ MENSAGENS_DE_LOG = {
     PROCESSO_RETURN_SIGINT: "Processo: {pid} FINALIZADO",
     PROCESSO_INSTRUCTION: "Processo: {pid} Operação {op}",
     START_PROCESSO: "\n\tIdentificador: \n" + Style.DIM + "{processo}" + RESET_TEXT + "\nprocesso {pid} => \nP{pid} INICIADO",
-}
-
-MENSAGENS_DE_DEBUG = {
-    PROCESSO_BLOQUEADO: 'processo foi bloqueado',
-    RECURSO_LIBERADO: 'desalocou gerenciador recursos',
-    DEBUG_MODE_ON: Fore.GREEN + 'DEGUB MODE ON' + RESET_TEXT,
-    ESPERANDO_PROCESSO_TR: 'esperando por processo de tempo real...',
-    ESPERANDO_PROCESSO_USUARIO: 'esperando por processo de usuario...',
-    PROCESSO_INCRIMENTADO: Fore.BLUE + 'processo {pid} subiu para fila {fila}' + RESET_TEXT,
-    PROCESSO_DECREMENTADO: Fore.BLUE + 'processo {pid} desceu para fila {fila}' + RESET_TEXT,
 }

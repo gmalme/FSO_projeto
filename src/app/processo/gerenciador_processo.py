@@ -61,7 +61,6 @@ class ProcessoGerenciador:
             result = self.gerenciador_memoria.alocar(processo[0])
             if result == -2: return -1
             if result == -1:
-                self.out.debug(PROCESSO_BLOQUEADO)
                 self.PROCESSO_BLOQUEADOs.append(processo[0])
                 return 0
         self.current_proc = processo
@@ -124,7 +123,6 @@ class ProcessoGerenciador:
             time.sleep(1)
 
         if processo.processo_time <= 0:
-            self.out.debug(RECURSO_LIBERADO)
             self.out.log(PROCESSO_RETURN_SIGINT, pid=processo.pid)
             self.gerenciador_recurso.deallocate(processo)
             self.terminated_processos.append(processo.pid)
@@ -136,7 +134,6 @@ class ProcessoGerenciador:
     def fila_atual_thread(self):
         controle = 0
         while controle < 10:
-            self.out.debug(ESPERANDO_PROCESSO_TR)
             if not self.fila.fila_atual.empty():
                 controle=0
                 self.fila_lock.acquire()
@@ -150,7 +147,6 @@ class ProcessoGerenciador:
     def fila_thread_usuarios(self):
         controle = 0
         while controle < 10:
-            self.out.debug(ESPERANDO_PROCESSO_USUARIO)
             if not self.fila.fila_usuarios.vazia():
                 controle=0
                 self.fila_lock.acquire()
@@ -162,7 +158,6 @@ class ProcessoGerenciador:
                         result = self.__context_switching(first)
                         if result > 0: self.usuarios_running()
                     elif not recursos:
-                        self.out.debug(PROCESSO_BLOQUEADO)
                         self.PROCESSO_BLOQUEADOs.append(first[0])
 
                     self.fila_lock.release()

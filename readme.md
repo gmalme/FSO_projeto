@@ -19,9 +19,3 @@ pip install colorama
 ```
 python3 src/main.py
 ```
-
-Para execução em modo debug:
-
-```
-python3 src/main.py -d
-```
